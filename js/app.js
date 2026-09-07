@@ -28,6 +28,14 @@ form.addEventListener("submit", async (event) => {
   await fetchWeather(city);
 });
 
+// Show Yerevan's weather by default when the page first loads.
+// The search field stays fully usable for any other city.
+const DEFAULT_CITY = "Yerevan";
+window.addEventListener("DOMContentLoaded", () => {
+  input.value = DEFAULT_CITY;
+  fetchWeather(DEFAULT_CITY);
+});
+
 async function fetchWeather(city) {
   setLoading(true);
   setStatus("");
