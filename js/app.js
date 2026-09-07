@@ -18,6 +18,25 @@ const feelslikeEl = document.getElementById("feelslike");
 const humidityEl = document.getElementById("humidity");
 const windEl = document.getElementById("wind");
 const forecastEl = document.getElementById("forecast");
+const themeToggle = document.getElementById("theme-toggle");
+
+// --- Dark mode ---
+// The initial theme is already set (in index.html, before paint) to avoid
+// a flash of the wrong theme. Here we just wire up the toggle button and
+// remember the user's choice for next time.
+function setToggleIcon(theme) {
+  themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+
+setToggleIcon(document.documentElement.getAttribute("data-theme"));
+
+themeToggle.addEventListener("click", () => {
+  const current = document.documentElement.getAttribute("data-theme");
+  const next = current === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+  setToggleIcon(next);
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();

@@ -5,9 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather App</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script>
+    // Set the theme before the page paints, so there's no flash of the
+    // wrong theme. Uses the user's saved choice, or their system setting
+    // if they haven't chosen one yet.
+    (function () {
+      var saved = localStorage.getItem("theme");
+      var theme =
+        saved ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
 </head>
 <body>
   <main class="card">
+    <button
+      id="theme-toggle"
+      class="theme-toggle"
+      type="button"
+      aria-label="Toggle dark mode"
+    ></button>
     <h1>Weather</h1>
 
     <form id="search-form" class="search-form">

@@ -37,11 +37,13 @@ experience — keep explanations simple and changes incremental.
 ## Current scope (intentionally light)
 
 - Current weather + 3-day forecast are implemented.
-- No dark mode / animations yet — plain, clean HTML/CSS only.
+- Yerevan loads by default; the search field works for any other city.
+- Light/dark mode toggle is implemented (CSS variables in `css/style.css`,
+  toggle logic in `js/app.js`, choice saved in `localStorage`).
+- No UI animations yet.
 
 ## Planned next steps (do only when asked)
 
-- Add light/dark mode toggle.
 - Add small UI animations/transitions.
 
 ## Conventions
