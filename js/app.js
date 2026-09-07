@@ -19,6 +19,10 @@ const humidityEl = document.getElementById("humidity");
 const windEl = document.getElementById("wind");
 const forecastEl = document.getElementById("forecast");
 const themeToggle = document.getElementById("theme-toggle");
+const weatherFxEl = document.getElementById("weather-fx");
+const mascotEl = document.getElementById("mascot");
+const mascotFaceEl = document.getElementById("mascot-face");
+const mascotTipEl = document.getElementById("mascot-tip");
 
 // --- Dark mode ---
 // The initial theme is already set (in index.html, before paint) to avoid
@@ -48,10 +52,10 @@ form.addEventListener("submit", async (event) => {
 });
 
 // Show Yerevan's weather by default when the page first loads.
-// The search field stays fully usable for any other city.
+// The search field itself stays empty (just the placeholder) and fully
+// usable for any other city.
 const DEFAULT_CITY = "Yerevan";
 window.addEventListener("DOMContentLoaded", () => {
-  input.value = DEFAULT_CITY;
   fetchWeather(DEFAULT_CITY);
 });
 
@@ -96,7 +100,10 @@ function renderWeather(data) {
   humidityEl.textContent = `${current.humidity}%`;
   windEl.textContent = `${current.wind_kph} km/h`;
 
-  renderForecast(data.forecast && data.forecast.forecastday);
+  const forecastDays = data.forecast && data.forecast.forecastday;
+  renderForecast(forecastDays);
+  renderWeatherEffect(current.condition.text, current.is_day);
+  renderMascot(forecastDays);
 
   resultEl.classList.remove("hidden");
 }
@@ -134,6 +141,112 @@ function dayLabel(dateString, index) {
   const [year, month, dayNum] = dateString.split("-").map(Number);
   const date = new Date(year, month - 1, dayNum);
   return date.toLocaleDateString(undefined, { weekday: "short" });
+}
+
+// --- Weather-based background effect (rain / snow / sun / clouds) ---
+
+let currentWeatherFx = null; // avoid rebuilding the same effect every search
+
+function renderWeatherEffect(conditionText, isDay) {
+  const category = weatherCategory(conditionText, isDay);
+
+  if (category === currentWeatherFx) return;
+  currentWeatherFx = category;
+
+  weatherFxEl.innerHTML = "";
+  document.body.className = `weather-${category}`;
+
+  if (category === "rain" || category === "thunder") {
+    for (let i = 0; i < 60; i++) {
+      const drop = document.createElement("span");
+      drop.className = "raindrop";
+      drop.style.left = `${Math.random() * 100}%`;
+      drop.style.animationDuration = `${0.4 + Math.random() * 0.5}s`;
+      drop.style.animationDelay = `${Math.random() * -2}s`;
+      weatherFxEl.appendChild(drop);
+    }
+  } else if (category === "snow") {
+    for (let i = 0; i < 45; i++) {
+      const flake = document.createElement("span");
+      flake.className = "snowflake";
+      flake.textContent = "❄";
+      flake.style.left = `${Math.random() * 100}%`;
+      flake.style.fontSize = `${8 + Math.random() * 10}px`;
+      flake.style.setProperty("--drift", `${Math.random() * 60 - 30}px`);
+      flake.style.animationDuration = `${5 + Math.random() * 5}s`;
+      flake.style.animationDelay = `${Math.random() * -8}s`;
+      weatherFxEl.appendChild(flake);
+    }
+  }
+}
+
+function weatherCategory(conditionText, isDay) {
+  const text = (conditionText || "").toLowerCase();
+
+  if (text.includes("thunder")) return "thunder";
+  if (
+    text.includes("snow") ||
+    text.includes("blizzard") ||
+    text.includes("sleet") ||
+    text.includes("ice")
+  )
+    return "snow";
+  if (text.includes("rain") || text.includes("drizzle")) return "rain";
+  if (text.includes("fog") || text.includes("mist")) return "fog";
+  if (text.includes("sun") || text.includes("clear"))
+    return isDay ? "sunny" : "clear-night";
+  return "cloudy";
+}
+
+// --- Mascot tip, based on tomorrow's forecast ---
+
+function renderMascot(forecastDays) {
+  if (!forecastDays || forecastDays.length === 0) {
+    mascotEl.classList.add("hidden");
+    return;
+  }
+
+  // forecastDays[0] is today; use tomorrow when we have it.
+  const tomorrow = forecastDays[1] || forecastDays[0];
+  const { face, tip } = mascotTip(tomorrow);
+
+  mascotFaceEl.textContent = face;
+  mascotTipEl.textContent = tip;
+  mascotEl.classList.remove("hidden");
+}
+
+function mascotTip(day) {
+  const text = (day.day.condition.text || "").toLowerCase();
+  const maxTemp = day.day.maxtemp_c;
+  const minTemp = day.day.mintemp_c;
+
+  if (text.includes("thunder")) {
+    return { face: "⛈️", tip: "Thunderstorms tomorrow — better stay indoors!" };
+  }
+  if (
+    text.includes("snow") ||
+    text.includes("blizzard") ||
+    text.includes("sleet") ||
+    text.includes("ice")
+  ) {
+    return { face: "🏂", tip: "Snow tomorrow — grab your snowboard!" };
+  }
+  if (text.includes("rain") || text.includes("drizzle")) {
+    return { face: "☔", tip: "Rain tomorrow — take an umbrella!" };
+  }
+  if (maxTemp >= 32) {
+    return { face: "🥤", tip: "Hot tomorrow — stay hydrated!" };
+  }
+  if (minTemp <= 0) {
+    return { face: "🧣", tip: "Freezing tomorrow — bundle up warm!" };
+  }
+  if (text.includes("fog") || text.includes("mist")) {
+    return { face: "🌫️", tip: "Foggy tomorrow — drive carefully!" };
+  }
+  if (text.includes("sun") || text.includes("clear")) {
+    return { face: "🕶️", tip: "Sunny tomorrow — don't forget your sunglasses!" };
+  }
+  return { face: "🙂", tip: "Calm weather tomorrow — have a great day!" };
 }
 
 function setStatus(message, isError = false) {

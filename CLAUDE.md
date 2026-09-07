@@ -37,14 +37,24 @@ experience — keep explanations simple and changes incremental.
 ## Current scope (intentionally light)
 
 - Current weather + 3-day forecast are implemented.
-- Yerevan loads by default; the search field works for any other city.
+- Yerevan loads by default; the search field starts empty (placeholder
+  only) and works for any other city.
 - Light/dark mode toggle is implemented (CSS variables in `css/style.css`,
-  toggle logic in `js/app.js`, choice saved in `localStorage`).
-- No UI animations yet.
+  toggle logic in `js/app.js`, choice saved in `localStorage`). Dark mode
+  is intentionally very dark regardless of weather.
+- Animated background effect based on current condition (`#weather-fx` in
+  `index.html`, particles generated in `js/app.js`'s `renderWeatherEffect`,
+  keyframes in `style.css`): rain drops for rain/drizzle, snowflakes for
+  snow, tinted gradient (sunny/cloudy/fog/thunder/clear-night) — light
+  mode only; dark mode's background stays deep/dark regardless.
+- "Mascot" tip (`#mascot` in `index.html`, `renderMascot`/`mascotTip` in
+  `js/app.js`): an emoji + short suggestion based on tomorrow's forecast
+  condition (umbrella for rain, snowboard for snow, sunglasses for sun,
+  etc.).
 
 ## Planned next steps (do only when asked)
 
-- Add small UI animations/transitions.
+- More UI animations/polish if requested.
 
 ## Conventions
 
