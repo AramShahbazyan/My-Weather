@@ -49,10 +49,26 @@ body.weather-clear-night {
   --bg-gradient: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%);
 }
 
+/* Moody weather (night, thunder, rain) also darkens the card itself, even
+   while in light mode — a stark white card looked wrong against these
+   darker backgrounds. Icons/text/tip badges follow automatically since
+   they're all driven by these same variables. */
+body.weather-clear-night,
+body.weather-thunder,
+body.weather-rain {
+  --card-bg: #1e293b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --border: #334155;
+  --toggle-bg: #334155;
+  --tip-bg: #334155;
+}
+
 :root[data-theme="dark"] body {
   /* Higher specificity than the .weather-* rules above, so dark mode
      always wins and stays deep/dark regardless of current weather. */
   --bg-gradient: linear-gradient(135deg, #05070d 0%, #0a0f1c 55%, #000000 100%);
+  --card-bg: #0b1120;
 }
 
 * {
