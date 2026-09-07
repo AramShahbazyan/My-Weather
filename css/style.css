@@ -141,6 +141,12 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 1rem;
+  background: var(--toggle-bg);
+  color: var(--text);
+}
+
+#city-input::placeholder {
+  color: var(--muted);
 }
 
 #city-input:focus {
