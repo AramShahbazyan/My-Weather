@@ -17,6 +17,7 @@ const conditionEl = document.getElementById("condition");
 const feelslikeEl = document.getElementById("feelslike");
 const humidityEl = document.getElementById("humidity");
 const windEl = document.getElementById("wind");
+const forecastEl = document.getElementById("forecast");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -34,7 +35,7 @@ async function fetchWeather(city) {
 
   try {
     const response = await fetch(
-      `/api/weather?city=${encodeURIComponent(city)}`
+      `/api/weather?city=${encodeURIComponent(city)}&days=3`
     );
     const data = await response.json();
 
@@ -68,7 +69,44 @@ function renderWeather(data) {
   humidityEl.textContent = `${current.humidity}%`;
   windEl.textContent = `${current.wind_kph} km/h`;
 
+  renderForecast(data.forecast && data.forecast.forecastday);
+
   resultEl.classList.remove("hidden");
+}
+
+function renderForecast(forecastDays) {
+  forecastEl.innerHTML = "";
+
+  if (!forecastDays || forecastDays.length === 0) return;
+
+  forecastDays.forEach((day, index) => {
+    const card = document.createElement("div");
+    card.className = "forecast-day";
+
+    const icon = day.day.condition.icon.startsWith("//")
+      ? `https:${day.day.condition.icon}`
+      : day.day.condition.icon;
+
+    card.innerHTML = `
+      <span class="forecast-label">${dayLabel(day.date, index)}</span>
+      <img src="${icon}" alt="${day.day.condition.text}" width="40" height="40" />
+      <span class="forecast-temps">
+        <span class="forecast-max">${Math.round(day.day.maxtemp_c)}°</span>
+        <span class="forecast-min">${Math.round(day.day.mintemp_c)}°</span>
+      </span>
+    `;
+
+    forecastEl.appendChild(card);
+  });
+}
+
+function dayLabel(dateString, index) {
+  if (index === 0) return "Today";
+
+  // Parse as a local date (avoid timezone shifting the weekday).
+  const [year, month, dayNum] = dateString.split("-").map(Number);
+  const date = new Date(year, month - 1, dayNum);
+  return date.toLocaleDateString(undefined, { weekday: "short" });
 }
 
 function setStatus(message, isError = false) {

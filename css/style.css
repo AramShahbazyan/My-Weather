@@ -147,3 +147,40 @@ button:disabled {
 .detail-value {
   font-weight: 600;
 }
+
+.forecast {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 18px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+.forecast-day {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.forecast-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.forecast-temps {
+  display: flex;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.forecast-max {
+  font-weight: 600;
+}
+
+.forecast-min {
+  color: var(--muted);
+}

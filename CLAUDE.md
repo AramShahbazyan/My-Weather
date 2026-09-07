@@ -16,7 +16,10 @@ experience — keep explanations simple and changes incremental.
   It is a secure proxy to WeatherAPI.com — the only place `WEATHER_API_KEY`
   is read. The browser never sees the real key.
 - **Weather data**: [WeatherAPI.com](https://www.weatherapi.com/), endpoint
-  `GET https://api.weatherapi.com/v1/current.json?key=...&q=<city>`.
+  `GET https://api.weatherapi.com/v1/forecast.json?key=...&q=<city>&days=3`
+  (this single endpoint returns both current weather and the forecast).
+  Free plan caps `days` at 3 — `MAX_DAYS` in `netlify/functions/weather.js`
+  enforces that.
 - **Deployment**: Netlify. `netlify.toml` maps `/api/*` to the function so
   the frontend calls the clean path `/api/weather?city=...`.
 
@@ -33,12 +36,11 @@ experience — keep explanations simple and changes incremental.
 
 ## Current scope (intentionally light)
 
-- Only "current weather" is implemented (no forecast yet).
+- Current weather + 3-day forecast are implemented.
 - No dark mode / animations yet — plain, clean HTML/CSS only.
 
 ## Planned next steps (do only when asked)
 
-- Add a forecast view (WeatherAPI.com `/forecast.json` endpoint).
 - Add light/dark mode toggle.
 - Add small UI animations/transitions.
 
