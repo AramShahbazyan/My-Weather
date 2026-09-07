@@ -28,10 +28,10 @@
    and dramatic no matter the weather; the animated rain/snow above still
    plays in both themes). */
 body.weather-rain {
-  --bg-gradient: linear-gradient(135deg, #94a3b8 0%, #64748b 55%, #475569 100%);
+  --bg-gradient: linear-gradient(135deg, #a8b8cc 0%, #8fa3bf 55%, #a8b8cc 100%);
 }
 body.weather-thunder {
-  --bg-gradient: linear-gradient(135deg, #64748b 0%, #334155 55%, #1e293b 100%);
+  --bg-gradient: linear-gradient(135deg, #94a0b8 0%, #75839c 55%, #94a0b8 100%);
 }
 body.weather-snow {
   --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 55%, #cbd5e1 100%);
@@ -46,7 +46,7 @@ body.weather-fog {
   --bg-gradient: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 55%, #9ca3af 100%);
 }
 body.weather-clear-night {
-  --bg-gradient: linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%);
+  --bg-gradient: linear-gradient(135deg, #7c8ba1 0%, #64748b 55%, #7c8ba1 100%);
 }
 
 /* Moody weather (night, thunder, rain) also darkens the card itself, even
@@ -66,8 +66,9 @@ body.weather-rain {
 
 :root[data-theme="dark"] body {
   /* Higher specificity than the .weather-* rules above, so dark mode
-     always wins and stays deep/dark regardless of current weather. */
-  --bg-gradient: linear-gradient(135deg, #05070d 0%, #0a0f1c 55%, #000000 100%);
+     always wins regardless of current weather. Kept lighter than the
+     card itself, so the card still stands out against the page. */
+  --bg-gradient: linear-gradient(135deg, #1e293b 0%, #334155 55%, #1e293b 100%);
   --card-bg: #0b1120;
 }
 
