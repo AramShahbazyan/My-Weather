@@ -1,32 +1,25 @@
+/* The card is ALWAYS dark — never white, in any weather, at any time of
+   day, in either theme. Only the page background (--bg-gradient) changes
+   with weather/theme; the card itself stays constant so it's always
+   readable and never surprises anyone. */
 :root {
   --bg-gradient: linear-gradient(135deg, #dbeafe 0%, #eef2f7 55%, #f8fafc 100%);
-  --card-bg: #eef1f5;
-  --text: #1f2937;
-  --muted: #6b7280;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --border: #d7dde5;
-  --error: #dc2626;
-  --toggle-bg: #e2e7ee;
-  --tip-bg: #cbd5e1;
-}
-
-:root[data-theme="dark"] {
-  --bg-gradient: linear-gradient(135deg, #05070d 0%, #0a0f1c 55%, #000000 100%);
-  --card-bg: #0b1120;
+  --card-bg: #1e293b;
   --text: #f1f5f9;
   --muted: #94a3b8;
-  --accent: #60a5fa;
-  --accent-hover: #93c5fd;
-  --border: #1e293b;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --border: #334155;
   --error: #f87171;
-  --toggle-bg: #1e293b;
+  --toggle-bg: #334155;
   --tip-bg: #334155;
 }
 
-/* Weather-based background tint (light mode only — dark mode stays deep
-   and dramatic no matter the weather; the animated rain/snow above still
-   plays in both themes). */
+:root[data-theme="dark"] {
+  --card-bg: #0b1120;
+}
+
+/* Weather-based tint for the page background only. */
 body.weather-rain {
   --bg-gradient: linear-gradient(135deg, #a8b8cc 0%, #8fa3bf 55%, #a8b8cc 100%);
 }
@@ -49,27 +42,10 @@ body.weather-clear-night {
   --bg-gradient: linear-gradient(135deg, #7c8ba1 0%, #64748b 55%, #7c8ba1 100%);
 }
 
-/* Moody weather (night, thunder, rain) also darkens the card itself, even
-   while in light mode — a stark white card looked wrong against these
-   darker backgrounds. Icons/text/tip badges follow automatically since
-   they're all driven by these same variables. */
-body.weather-clear-night,
-body.weather-thunder,
-body.weather-rain {
-  --card-bg: #1e293b;
-  --text: #f1f5f9;
-  --muted: #94a3b8;
-  --border: #334155;
-  --toggle-bg: #334155;
-  --tip-bg: #334155;
-}
-
 :root[data-theme="dark"] body {
-  /* Higher specificity than the .weather-* rules above, so dark mode
-     always wins regardless of current weather. Kept lighter than the
-     card itself, so the card still stands out against the page. */
+  /* Highest specificity, so dark mode's own background always wins
+     regardless of current weather. */
   --bg-gradient: linear-gradient(135deg, #1e293b 0%, #334155 55%, #1e293b 100%);
-  --card-bg: #0b1120;
 }
 
 * {
