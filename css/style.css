@@ -1,13 +1,13 @@
 :root {
   --bg-gradient: linear-gradient(135deg, #dbeafe 0%, #eef2f7 55%, #f8fafc 100%);
-  --card-bg: #ffffff;
+  --card-bg: #eef1f5;
   --text: #1f2937;
   --muted: #6b7280;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
-  --border: #e5e7eb;
+  --border: #d7dde5;
   --error: #dc2626;
-  --toggle-bg: #eef2f7;
+  --toggle-bg: #e2e7ee;
   --tip-bg: #cbd5e1;
 }
 
@@ -92,7 +92,7 @@ body {
 .card {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 440px;
   background: var(--card-bg);
   border-radius: 16px;
   padding: 28px 24px;
